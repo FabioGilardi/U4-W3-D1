@@ -1,0 +1,21 @@
+SELECT * FROM public.clienti WHERE clienti.nome = 'mario'
+
+SELECT nome, cognome FROM clienti WHERE clienti.anno_di_nascita = 1982
+
+SELECT numero_fattura FROM fatture where fatture.iva = 20
+
+SELECT * FROM prodotti WHERE EXTRACT(YEAR FROM data_attivazione) = 2017 AND (in_produzione = true OR in_commercio = true)
+
+SELECT * FROM fatture JOIN clienti USING(numero_cliente) WHERE fatture.importo < 1000 
+
+SELECT numero_fattura, importo, iva, data_fattura, fornitori.denominazione FROM fatture JOIN fornitori USING(numero_fornitore)
+
+SELECT COUNT(*), EXTRACT(YEAR FROM fatture.data_fattura) FROM fatture WHERE fatture.iva = 20 GROUP BY EXTRACT(YEAR FROM fatture.data_fattura)
+
+SELECT COUNT(*), sum(importo), EXTRACT(YEAR FROM fatture.data_fattura) FROM fatture GROUP BY EXTRACT(YEAR FROM fatture.data_fattura)
+
+SELECT EXTRACT(YEAR FROM data_fattura) FROM fatture WHERE fatture.tipologia = 'A' GROUP BY EXTRACT(YEAR FROM data_fattura) HAVING COUNT(*) > 2
+
+SELECT SUM(importo), clienti.regione_residenza FROM fatture JOIN clienti USING(numero_cliente) GROUP BY clienti.regione_residenza
+
+SELECT COUNT(*) FROM clienti JOIN fatture USING(numero_cliente) WHERE fatture.importo > 50 AND clienti.anno_di_nascita = 1982 GROUP BY anno_di_nascita
